@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+      {% block title %}Факультет{% endblock %}
+      · НаУКМА
+    </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+  </head>
+  <body>
+    {% with current=request.resolver_match.url_name %}
+      <header class="site-header">
+        <div class="container header-inner">
+          <a class="brand" href="{% url 'faculty:main' %}">
+            <span class="brand-mark">НаУКМА</span>
+            <span class="brand-text">Факультет</span>
+          </a>
+          <nav class="nav">
+            <a href="{% url 'faculty:main' %}"
+               {% if current == 'main' %}class="active"{% endif %}>Головна</a>
+            <a href="{% url 'faculty:department_list' %}"
+               {% if current == 'department_list' or current == 'department_detail' %}class="active"{% endif %}>Кафедри</a>
+            <a href="{% url 'faculty:program_list' %}"
+               {% if current == 'program_list' or current == 'program_detail' %}class="active"{% endif %}>Спеціальності</a>
+          </nav>
+        </div>
+      </header>
+    {% endwith %}
+    <main class="container main">
+      {% block content %}{% endblock %}
+    </main>
+    <footer class="site-footer">
+      <div class="container">Національний університет «Києво-Могилянська академія» · вул. Григорія Сковороди, 2, Київ</div>
+    </footer>
+  </body>
+</html>

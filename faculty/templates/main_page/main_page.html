@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}{{ faculty.name }}{% endblock %}
+{% block content %}
+  <section class="hero">
+    <p class="eyebrow">Національний університет «Києво-Могилянська академія»</p>
+    <h1>{{ faculty.name }}</h1>
+    <div class="hero-actions">
+      <a class="button" href="{% url 'faculty:program_list' %}">Спеціальності</a>
+      <a class="button button-ghost"
+         href="{% url 'faculty:department_list' %}">Кафедри</a>
+    </div>
+  </section>
+  <div class="grid-main">
+    <section class="card">
+      <h2>Про факультет</h2>
+      <div class="prose">{{ faculty.description|linebreaks }}</div>
+    </section>
+    <aside class="stack">
+      <section class="card">
+        <h2>Основна інформація</h2>
+        <dl class="info-list">
+          <dt>Декан</dt>
+          <dd>
+            {{ faculty.dean }}
+          </dd>
+        </dl>
+      </section>
+      <section class="card card-accent">
+        <h2>Контакти</h2>
+        <dl class="info-list">
+          <dt>Адреса</dt>
+          <dd>
+            {{ faculty.address }}
+          </dd>
+          <dt>Телефон</dt>
+          <dd>
+            <a href="tel:{{ faculty.phone }}">{{ faculty.phone }}</a>
+          </dd>
+          <dt>Email</dt>
+          <dd>
+            <a href="mailto:{{ faculty.email }}">{{ faculty.email }}</a>
+          </dd>
+        </dl>
+      </section>
+    </aside>
+  </div>
+{% endblock %}

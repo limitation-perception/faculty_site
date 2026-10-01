@@ -2,7 +2,6 @@ from django.urls import path
 
 from faculty import views
 
-app_name = "main_page"
 # CHANGE
 app_name = "faculty"
 
