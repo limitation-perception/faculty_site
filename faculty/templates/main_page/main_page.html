@@ -1,47 +1,103 @@
 {% extends "base.html" %}
-{% block title %}{{ faculty.name }}{% endblock %}
+{% block title %}Головна{% endblock %}
 {% block content %}
   <section class="hero">
-    <p class="eyebrow">Національний університет «Києво-Могилянська академія»</p>
-    <h1>{{ faculty.name }}</h1>
-    <div class="hero-actions">
-      <a class="button" href="{% url 'faculty:program_list' %}">Спеціальності</a>
-      <a class="button button-ghost"
-         href="{% url 'faculty:department_list' %}">Кафедри</a>
+    <div class="container hero-inner">
+      <p class="eyebrow">Національний університет «Києво-Могилянська академія»</p>
+      <h1 class="hero-title">{{ faculty.name }}</h1>
+      <p class="hero-lead">{{ faculty.description|truncatewords:32 }}</p>
+      <div class="hero-actions">
+        <a class="button" href="{% url 'faculty:program_list' %}">Обрати програму →</a>
+        <a class="button button-ghost"
+           href="{% url 'faculty:department_list' %}">Кафедри</a>
+      </div>
+      <dl class="stats">
+        <div class="stat">
+          <dt>Кафедр</dt>
+          <dd>
+            {{ departments|length }}
+          </dd>
+        </div>
+        <div class="stat">
+          <dt>Освітніх програм</dt>
+          <dd>
+            {{ programs_count }}
+          </dd>
+        </div>
+        <div class="stat">
+          <dt>Викладачів</dt>
+          <dd>
+            {{ teachers_count }}
+          </dd>
+        </div>
+      </dl>
     </div>
   </section>
-  <div class="grid-main">
-    <section class="card">
-      <h2>Про факультет</h2>
-      <div class="prose">{{ faculty.description|linebreaks }}</div>
-    </section>
-    <aside class="stack">
-      <section class="card">
-        <h2>Основна інформація</h2>
-        <dl class="info-list">
-          <dt>Декан</dt>
-          <dd>
-            {{ faculty.dean }}
-          </dd>
-        </dl>
-      </section>
-      <section class="card card-accent">
-        <h2>Контакти</h2>
-        <dl class="info-list">
-          <dt>Адреса</dt>
-          <dd>
-            {{ faculty.address }}
-          </dd>
-          <dt>Телефон</dt>
-          <dd>
+  <section class="section">
+    <div class="container about-grid">
+      <div>
+        <p class="section-kicker">Про факультет</p>
+        <h2 class="section-title">Знайомтеся з факультетом</h2>
+        <div class="prose">{{ faculty.description|linebreaks }}</div>
+      </div>
+      <aside class="contact-card">
+        <div class="contact-person">
+          <span class="avatar avatar-lg">{{ faculty.dean|first }}</span>
+          <div>
+            <p class="contact-label">Декан факультету</p>
+            <p class="contact-name">{{ faculty.dean }}</p>
+          </div>
+        </div>
+        <ul class="contact-list">
+          <li>
+            <span class="contact-icon">⌂</span>
+            <span>{{ faculty.address }}</span>
+          </li>
+          <li>
+            <span class="contact-icon">☎</span>
             <a href="tel:{{ faculty.phone }}">{{ faculty.phone }}</a>
-          </dd>
-          <dt>Email</dt>
-          <dd>
+          </li>
+          <li>
+            <span class="contact-icon">@</span>
             <a href="mailto:{{ faculty.email }}">{{ faculty.email }}</a>
-          </dd>
-        </dl>
-      </section>
-    </aside>
-  </div>
+          </li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+  <section class="section section-tinted">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="section-kicker">Структура</p>
+          <h2 class="section-title">Кафедри факультету</h2>
+        </div>
+        <a class="link-arrow" href="{% url 'faculty:department_list' %}">Усі кафедри →</a>
+      </div>
+      <div class="dept-grid">
+        {% for department in departments %}
+          <a class="dept-card"
+             href="{% url 'faculty:department_detail' department.id %}">
+            <span class="dept-index">{{ forloop.counter|stringformat:"02d" }}</span>
+            <h3>{{ department.name }}</h3>
+            <p class="dept-head">{{ department.head }}</p>
+            <p class="dept-meta">{{ department.programs.all|length }} програм · {{ department.teachers.all|length }} викладачів</p>
+          </a>
+        {% empty %}
+          <p class="empty">Кафедри ще не додано.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div class="cta">
+        <div>
+          <h2>Шукаєш свою програму?</h2>
+          <p>Бакалаврські та магістерські програми факультету — з описом, дисциплінами й контактами координаторів набору.</p>
+        </div>
+        <a class="button" href="{% url 'faculty:program_list' %}">Переглянути спеціальності</a>
+      </div>
+    </div>
+  </section>
 {% endblock %}

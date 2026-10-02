@@ -1,33 +1,44 @@
 {% extends "base.html" %}
 {% block title %}Кафедри{% endblock %}
 {% block content %}
-  <header class="page-header">
-    <h1>Кафедри</h1>
-    <p class="lead">Кафедри факультету та спеціальності, для яких вони є випусковими.</p>
-  </header>
-  <div class="card-grid">
-    {% for department in departments %}
-      <article class="card">
-        <h2>
-          <a class="title-link"
-             href="{% url 'faculty:department_detail' department.id %}">{{ department.name }}</a>
-        </h2>
-        <p>
-          <span class="muted">Завідувач:</span> {{ department.head }}
-        </p>
-        <p class="muted">Випускова для:</p>
-        <ul class="tags">
-          {% for program in department.programs.all %}
-            <li>
-              <a href="{% url 'faculty:program_detail' program.id %}">{{ program.code }} {{ program.name }}</a>
-            </li>
-          {% empty %}
-            <li class="empty">немає спеціальностей</li>
-          {% endfor %}
-        </ul>
-      </article>
-    {% empty %}
-      <p class="empty">Кафедри ще не додано.</p>
-    {% endfor %}
-  </div>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Структура факультету</p>
+      <h1 class="page-title">Кафедри</h1>
+      <p class="page-lead">Кафедри факультету та спеціальності, для яких вони є випусковими.</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container dept-list">
+      {% for department in departments %}
+        <article class="dept-row">
+          <span class="dept-index">{{ forloop.counter|stringformat:"02d" }}</span>
+          <div class="dept-body">
+            <h2>
+              <a class="title-link"
+                 href="{% url 'faculty:department_detail' department.id %}">{{ department.name }}</a>
+            </h2>
+            <p class="dept-head">
+              <span class="contact-label">Завідувач</span>
+              {{ department.head }}
+            </p>
+            <ul class="chips">
+              {% for program in department.programs.all %}
+                <li>
+                  <a href="{% url 'faculty:program_detail' program.id %}"><b>{{ program.code }}</b> {{ program.name }}</a>
+                </li>
+              {% empty %}
+                <li class="empty">Немає випускових спеціальностей</li>
+              {% endfor %}
+            </ul>
+          </div>
+          <a class="dept-go"
+             href="{% url 'faculty:department_detail' department.id %}"
+             aria-label="Перейти до кафедри">→</a>
+        </article>
+      {% empty %}
+        <p class="empty">Кафедри ще не додано.</p>
+      {% endfor %}
+    </div>
+  </section>
 {% endblock %}

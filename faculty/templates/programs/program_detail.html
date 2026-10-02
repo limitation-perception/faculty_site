@@ -1,46 +1,53 @@
 {% extends "base.html" %}
 {% block title %}{{ program.name }}{% endblock %}
 {% block content %}
-  <a class="back" href="{% url 'faculty:program_list' %}">← Усі спеціальності</a>
-  <header class="page-header">
-    <span class="badge">{{ program.code }}</span>
-    <h1>{{ program.name }}</h1>
-    <p class="lead">
-      Випускова кафедра:
-      <a href="{% url 'faculty:department_detail' program.department.id %}">{{ program.department.name }}</a>
-    </p>
-  </header>
-  <div class="grid-main">
-    <div class="stack">
-      <section class="card">
-        <h2>Про програму</h2>
-        <div class="prose">{{ program.description|linebreaks }}</div>
-      </section>
-      <section class="card">
-        <h2>Дисципліни</h2>
-        <ul class="lessons">
-          {% for lesson in lessons %}
-            <li>{{ lesson }}</li>
-          {% empty %}
-            <li class="empty">Список дисциплін ще не додано.</li>
-          {% endfor %}
-        </ul>
-      </section>
+  <section class="page-hero">
+    <div class="container">
+      <a class="back" href="{% url 'faculty:program_list' %}">← Усі спеціальності</a>
+      <p class="eyebrow">
+        <span class="code code-light">{{ program.code }}</span>
+      </p>
+      <h1 class="page-title">{{ program.name }}</h1>
+      <p class="page-lead">
+        Випускова кафедра:
+        <a href="{% url 'faculty:department_detail' program.department.id %}">{{ program.department.name }}</a>
+      </p>
     </div>
-    <aside>
-      <section class="card card-accent">
-        <h2>Координатор набору</h2>
-        <dl class="info-list">
-          <dt>Ім'я</dt>
-          <dd>
-            {{ program.head_name }}
-          </dd>
-          <dt>Контакт</dt>
-          <dd>
-            {{ program.head_contact|urlize }}
-          </dd>
-        </dl>
-      </section>
-    </aside>
-  </div>
+  </section>
+  <section class="section">
+    <div class="container detail-grid">
+      <div class="detail-main">
+        <article class="panel">
+          <h2 class="panel-title">Про програму</h2>
+          <div class="prose">{{ program.description|linebreaks }}</div>
+        </article>
+        <article class="panel">
+          <h2 class="panel-title">
+            Дисципліни <span class="count">{{ lessons|length }}</span>
+          </h2>
+          <ol class="lessons">
+            {% for lesson in lessons %}
+              <li>{{ lesson }}</li>
+            {% empty %}
+              <li class="empty">Список дисциплін ще не додано.</li>
+            {% endfor %}
+          </ol>
+        </article>
+      </div>
+      <aside class="sticky">
+        <div class="contact-card">
+          <div class="contact-person">
+            <span class="avatar avatar-lg">{{ program.head_name|first }}</span>
+            <div>
+              <p class="contact-label">Координатор набору</p>
+              <p class="contact-name">{{ program.head_name }}</p>
+            </div>
+          </div>
+          <p class="contact-text">{{ program.head_contact|urlize }}</p>
+          <a class="button button-block"
+             href="{% url 'faculty:department_detail' program.department.id %}">Про кафедру →</a>
+        </div>
+      </aside>
+    </div>
+  </section>
 {% endblock %}

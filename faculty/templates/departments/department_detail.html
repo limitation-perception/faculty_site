@@ -1,48 +1,47 @@
 {% extends "base.html" %}
 {% block title %}{{ department.name }}{% endblock %}
 {% block content %}
-  <a class="back" href="{% url 'faculty:department_list' %}">← Усі кафедри</a>
-  <header class="page-header">
-    <h1>{{ department.name }}</h1>
-    <p class="lead">Завідувач кафедри: {{ department.head }}</p>
-  </header>
-  <section class="card">
-    <h2>Випускова кафедра для спеціальностей</h2>
-    <ul class="tags">
-      {% for program in department.programs.all %}
-        <li>
-          <a href="{% url 'faculty:program_detail' program.id %}">{{ program.code }} {{ program.name }}</a>
-        </li>
-      {% empty %}
-        <li class="empty">немає спеціальностей</li>
-      {% endfor %}
-    </ul>
+  <section class="page-hero">
+    <div class="container">
+      <a class="back" href="{% url 'faculty:department_list' %}">← Усі кафедри</a>
+      <p class="eyebrow">Кафедра</p>
+      <h1 class="page-title">{{ department.name }}</h1>
+      <p class="page-lead">Завідувач: {{ department.head }}</p>
+    </div>
   </section>
-  <section class="card">
-    <h2>Викладачі</h2>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Ім'я</th>
-            <th>Посада</th>
-            <th>Науковий ступінь</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for teacher in department.teachers.all %}
-            <tr>
-              <td>{{ teacher.name }}</td>
-              <td>{{ teacher.position }}</td>
-              <td>{{ teacher.degree }}</td>
-            </tr>
+  <section class="section">
+    <div class="container">
+      <div class="panel">
+        <h2 class="panel-title">Випускова кафедра для спеціальностей</h2>
+        <ul class="chips">
+          {% for program in department.programs.all %}
+            <li>
+              <a href="{% url 'faculty:program_detail' program.id %}"><b>{{ program.code }}</b> {{ program.name }}</a>
+            </li>
           {% empty %}
-            <tr>
-              <td colspan="3" class="empty">Викладачів ще не додано.</td>
-            </tr>
+            <li class="empty">Немає випускових спеціальностей</li>
           {% endfor %}
-        </tbody>
-      </table>
+        </ul>
+      </div>
+      <div class="section-head section-head-tight">
+        <h2 class="section-title">
+          Викладачі <span class="count">{{ department.teachers.all|length }}</span>
+        </h2>
+      </div>
+      <div class="teacher-grid">
+        {% for teacher in department.teachers.all %}
+          <article class="teacher-card">
+            <span class="avatar">{{ teacher.name|first }}</span>
+            <div>
+              <h3>{{ teacher.name }}</h3>
+              <p class="teacher-position">{{ teacher.position }}</p>
+              <p class="teacher-degree">{{ teacher.degree }}</p>
+            </div>
+          </article>
+        {% empty %}
+          <p class="empty">Викладачів ще не додано.</p>
+        {% endfor %}
+      </div>
     </div>
   </section>
 {% endblock %}
