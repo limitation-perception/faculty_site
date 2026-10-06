@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Обмін{% endblock %}
+{% block content %}
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Академічна мобільність</p>
+      <h1 class="page-title">Програми обміну</h1>
+      <p class="page-lead">Університети-партнери, де можна провести семестр за програмою академічного обміну.</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <ul class="chips filter">
+        <li>
+          <a href="{% url 'faculty:exchange' %}"
+             {% if not current_country %}class="active"{% endif %}>Усі країни</a>
+        </li>
+        {% for country in countries %}
+          <li>
+            <a href="?country={{ country|urlencode }}"
+               {% if country == current_country %}class="active"{% endif %}>{{ country }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="container program-grid">
+      {% for program in programs %}
+        <article class="program-card">
+          <div class="program-top">
+            <span class="code">{{ program.country }}</span>
+            {% if program.is_open %}
+              <span class="status status-open">Прийом триває</span>
+            {% else %}
+              <span class="status status-closed">Прийом завершено</span>
+            {% endif %}
+          </div>
+          <h2>{{ program.name }}</h2>
+          <p class="program-excerpt">{{ program.description }}</p>
+          <dl class="exchange-facts">
+            <div>
+              <dt class="contact-label">Мови навчання</dt>
+              <dd>
+                {{ program.languages }}
+              </dd>
+            </div>
+            <div>
+              <dt class="contact-label">Місця</dt>
+              <dd>
+                {{ program.places }}
+              </dd>
+            </div>
+            <div>
+              <dt class="contact-label">Дедлайн</dt>
+              <dd>
+                {{ program.deadline|date:"d.m.Y" }}
+              </dd>
+            </div>
+          </dl>
+        </article>
+      {% empty %}
+        <p class="empty">Програм обміну ще не додано.</p>
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}
