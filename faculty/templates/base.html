@@ -32,6 +32,8 @@
                {% if current == 'department_list' or current == 'department_detail' %}class="active"{% endif %}>Кафедри</a>
             <a href="{% url 'faculty:program_list' %}"
                {% if current == 'program_list' or current == 'program_detail' %}class="active"{% endif %}>Спеціальності</a>
+            <a href="{% url 'faculty:exchange' %}"
+               {% if current == 'exchange' %}class="active"{% endif %}>Обмін</a>
           </nav>
         </div>
       </header>
@@ -67,6 +69,9 @@
           </p>
           <p>
             <a href="{% url 'faculty:program_list' %}">Спеціальності</a>
+          </p>
+          <p>
+            <a href="{% url 'faculty:exchange' %}">Обмін</a>
           </p>
         </div>
       </div>
