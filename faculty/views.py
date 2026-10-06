@@ -67,13 +67,15 @@ def exchange_list(request):
     country = request.GET.get("country")
     if country:
         programs = programs.filter(country=country)
-
     return render(
         request,
         "exchange/exchange_list.html",
-        {
+                {
             "faculty": FacultyInfo.objects.first(),
-            "programs": ExchangeProgram.objects.all(),
+            "programs": programs,
+            "countries": ExchangeProgram.objects.values_list("country", flat=True).distinct(),
+            "current_country": country,
         },
+
     )
 

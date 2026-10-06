@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils import timezone
+
 
 
 class Department(models.Model):
@@ -50,11 +52,13 @@ class ExchangeProgram(models.Model):
     name = models.CharField(max_length=200, default="")
     country = models.CharField(max_length=200, default="")
     languages = models.CharField(max_length=200)
-    places = models.CharField(max_length=50)
-    places_count = models.PositiveIntegerField(default=0)
+    places = models.PositiveIntegerField(default=0)
     deadline = models.DateField()
     description = models.TextField()
 
 
     def __str__(self):
         return self.name
+    @property
+    def is_open(self):
+        return self.deadline >= timezone.localdate()

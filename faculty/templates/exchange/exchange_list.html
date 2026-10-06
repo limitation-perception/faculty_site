@@ -9,11 +9,30 @@
     </div>
   </section>
   <section class="section">
+    <div class="container">
+      <ul class="chips filter">
+        <li>
+          <a href="{% url 'faculty:exchange' %}"
+             {% if not current_country %}class="active"{% endif %}>Усі країни</a>
+        </li>
+        {% for country in countries %}
+          <li>
+            <a href="?country={{ country|urlencode }}"
+               {% if country == current_country %}class="active"{% endif %}>{{ country }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
     <div class="container program-grid">
       {% for program in programs %}
         <article class="program-card">
           <div class="program-top">
             <span class="code">{{ program.country }}</span>
+            {% if program.is_open %}
+              <span class="status status-open">Прийом триває</span>
+            {% else %}
+              <span class="status status-closed">Прийом завершено</span>
+            {% endif %}
           </div>
           <h2>{{ program.name }}</h2>
           <p class="program-excerpt">{{ program.description }}</p>
