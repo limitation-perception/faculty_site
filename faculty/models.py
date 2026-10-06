@@ -47,11 +47,14 @@ class FacultyInfo(models.Model):
     def __str__(self):
         return self.name
 class ExchangeProgram(models.Model):
-    university = models.CharField(max_length=200)  # назва разом з країною
+    name = models.CharField(max_length=200, default="")
+    country = models.CharField(max_length=200, default="")
     languages = models.CharField(max_length=200)
-    places = models.CharField(max_length=50)  # поки текст: "2 місця", "до 4"
+    places = models.CharField(max_length=50)
+    places_count = models.PositiveIntegerField(default=0)
     deadline = models.DateField()
     description = models.TextField()
 
+
     def __str__(self):
-        return self.university
+        return self.name

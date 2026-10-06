@@ -12,7 +12,10 @@
     <div class="container program-grid">
       {% for program in programs %}
         <article class="program-card">
-          <h2>{{ program.university }}</h2>
+          <div class="program-top">
+            <span class="code">{{ program.country }}</span>
+          </div>
+          <h2>{{ program.name }}</h2>
           <p class="program-excerpt">{{ program.description }}</p>
           <dl class="exchange-facts">
             <div>

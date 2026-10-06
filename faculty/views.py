@@ -63,6 +63,11 @@ def department_detail(request, id):
     )
 
 def exchange_list(request):
+    programs = ExchangeProgram.objects.all()
+    country = request.GET.get("country")
+    if country:
+        programs = programs.filter(country=country)
+
     return render(
         request,
         "exchange/exchange_list.html",
