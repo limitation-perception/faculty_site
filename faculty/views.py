@@ -1,7 +1,7 @@
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render
 
-from faculty.models import Department, FacultyInfo, Specialty, Teacher, ExchangeProgram
+from faculty.models import Department, ExchangeProgram, FacultyInfo, Specialty, Teacher
 
 
 # Create your views here.
@@ -62,6 +62,7 @@ def department_detail(request, id):
         {"faculty": FacultyInfo.objects.first(), "department": department},
     )
 
+
 def exchange_list(request):
     programs = ExchangeProgram.objects.all()
     country = request.GET.get("country")
@@ -70,12 +71,12 @@ def exchange_list(request):
     return render(
         request,
         "exchange/exchange_list.html",
-                {
+        {
             "faculty": FacultyInfo.objects.first(),
             "programs": programs,
-            "countries": ExchangeProgram.objects.values_list("country", flat=True).distinct(),
+            "countries": ExchangeProgram.objects.values_list(
+                "country", flat=True
+            ).distinct(),
             "current_country": country,
         },
-
     )
-
